@@ -24,8 +24,10 @@ categories: [xcode]
 ##Code Formatting with ClangFormat
 ![code formatting](http://nshipster.s3.amazonaws.com/xalign.gif)
 
+![code formatting](https://github-camo.global.ssl.fastly.net/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966)
+
 **XAlign**
-![alignment](http://nshipster.s3.amazonaws.com/xalign.gif)
+自动对齐
 
 ##Inspect NSColor / UIColor Instances
 ![color preview](http://nshipster.s3.amazonaws.com/colorsense.png)
@@ -36,4 +38,5 @@ categories: [xcode]
 ##Autocomplete Images from Project Bundle
 ![autocomplete images](http://nshipster.s3.amazonaws.com/ksimagenamed.gif)
 
-自动补全```[UIImage imageNamed:]```
+**KSImageNamed**
+自动补全`[UIImage imageNamed:]`
