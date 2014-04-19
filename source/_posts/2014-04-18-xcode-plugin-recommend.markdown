@@ -24,7 +24,6 @@ categories: [xcode]
 ##Code Formatting with ClangFormat
 ![code formatting](http://nshipster.s3.amazonaws.com/xalign.gif)
 
-![code formatting](https://github-camo.global.ssl.fastly.net/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966)
 
 **XAlign**
 自动对齐  `shift+command+x`
