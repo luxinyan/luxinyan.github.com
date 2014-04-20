@@ -6,6 +6,6 @@ comments: true
 categories: 
 
 ---
-```
+{% codeblock %}
 [self.refreshControl addTarget:self action:@selector(retrieveMessage) forControlEvents:UIControlEventValueChanged];
-```
+{% endcodeblock %}
