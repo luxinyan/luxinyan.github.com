@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="RAC 使用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of tim">
+<meta name="description" content="实用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of time&quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RAC 使用技巧">
 <meta property="og:url" content="http://yoursite.com/2016/02/09/RAC-使用技巧/index.html">
 <meta property="og:site_name" content="Luxinyan's Blog">
-<meta property="og:description" content="RAC 使用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of tim">
+<meta property="og:description" content="实用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of time&quot;);">
 <meta property="og:image" content="http://yoursite.com/media/14709339180888.jpg">
-<meta property="og:updated_time" content="2017-02-22T08:14:21.000Z">
+<meta property="og:updated_time" content="2017-02-22T08:49:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RAC 使用技巧">
-<meta name="twitter:description" content="RAC 使用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of tim">
+<meta name="twitter:description" content="实用技巧使用 RAC 添加一个 backgroundTask1234567891011UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^&amp;#123;    NSLog(@&quot;Ran out of time&quot;);">
 <meta name="twitter:image" content="http://yoursite.com/media/14709339180888.jpg">
 
 
@@ -116,7 +116,7 @@
   <title> RAC 使用技巧 | Luxinyan's Blog </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
 
@@ -171,7 +171,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -181,7 +181,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,7 +244,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-02-09T14:21:17+08:00" content="2016-02-09">
               2016-02-09
             </time>
@@ -273,16 +273,20 @@
       
 
       
-        <h2 id="RAC-使用技巧"><a href="#RAC-使用技巧" class="headerlink" title="RAC 使用技巧"></a>RAC 使用技巧</h2><h3 id="使用-RAC-添加一个-backgroundTask"><a href="#使用-RAC-添加一个-backgroundTask" class="headerlink" title="使用 RAC 添加一个 backgroundTask"></a>使用 RAC 添加一个 backgroundTask</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIBackgroundTaskIdentifier</span> backgroundTask = [[<span class="built_in">UIApplication</span> sharedApplication] beginBackgroundTaskWithExpirationHandler:^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Ran out of time"</span>);</div><div class="line">&#125;];</div><div class="line"> </div><div class="line">RACSignal *taskSignal = [<span class="keyword">self</span>.repository save];</div><div class="line"> </div><div class="line">[taskSignal subscribeError:^(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] endBackgroundTask:backgroundTask];</div><div class="line">&#125; completed:^&#123;</div><div class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] endBackgroundTask:backgroundTask];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<h3 id="观察消息的正确姿势"><a href="#观察消息的正确姿势" class="headerlink" title="观察消息的正确姿势"></a>观察消息的正确姿势</h3><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/365" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/365</a></p>
+        <h1 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h1><h2 id="使用-RAC-添加一个-backgroundTask"><a href="#使用-RAC-添加一个-backgroundTask" class="headerlink" title="使用 RAC 添加一个 backgroundTask"></a>使用 RAC 添加一个 backgroundTask</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIBackgroundTaskIdentifier</span> backgroundTask = [[<span class="built_in">UIApplication</span> sharedApplication] beginBackgroundTaskWithExpirationHandler:^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Ran out of time"</span>);</div><div class="line">&#125;];</div><div class="line"> </div><div class="line">RACSignal *taskSignal = [<span class="keyword">self</span>.repository save];</div><div class="line"> </div><div class="line">[taskSignal subscribeError:^(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] endBackgroundTask:backgroundTask];</div><div class="line">&#125; completed:^&#123;</div><div class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] endBackgroundTask:backgroundTask];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<h2 id="观察消息的正确姿势"><a href="#观察消息的正确姿势" class="headerlink" title="观察消息的正确姿势"></a>观察消息的正确姿势</h2><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/365" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/365</a></p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// X</span></div><div class="line">[[[<span class="built_in">NSNotificationCenter</span> defaultCenter] rac_addObserverForName:<span class="built_in">UIApplicationDidBecomeActiveNotification</span> object:<span class="literal">nil</span>]</div><div class="line">subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">   <span class="comment">// do something</span></div><div class="line">&#125;];</div><div class="line">    </div><div class="line"><span class="comment">// √</span></div><div class="line">[[[[<span class="built_in">NSNotificationCenter</span> defaultCenter] rac_addObserverForName:<span class="built_in">UIApplicationDidBecomeActiveNotification</span> object:<span class="literal">nil</span>]</div><div class="line">takeUntil:[<span class="keyword">self</span> rac_willDeallocSignal]]</div><div class="line">subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">   <span class="comment">// do something</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<h3 id="simple-的使用"><a href="#simple-的使用" class="headerlink" title="simple 的使用"></a>simple 的使用</h3><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/977" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/977</a></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[RACSignal zip:@[ signalA, [signalB sample:signalA] ]]</div></pre></td></tr></table></figure>
-<h3 id="doAroundNext"><a href="#doAroundNext" class="headerlink" title="doAroundNext"></a>doAroundNext</h3><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1731" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1731</a></p>
+<h2 id="doAroundNext"><a href="#doAroundNext" class="headerlink" title="doAroundNext"></a>doAroundNext</h2><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1731" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1731</a></p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (RACSignal *)doAroundNext:(<span class="keyword">void</span> (^)(<span class="keyword">id</span> x, <span class="keyword">void</span> (^yield)()))nextBlock &#123;</div><div class="line">  <span class="built_in">NSCParameterAssert</span>(nextBlock != <span class="literal">NULL</span>);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> [[RACSignal create:^(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">    [<span class="keyword">self</span> subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">      <span class="keyword">void</span> (^yielder)() = ^&#123;</div><div class="line">        [subscriber sendNext:x];</div><div class="line">      &#125;;</div><div class="line"></div><div class="line">      nextBlock(x, yielder);</div><div class="line">    &#125; error:^(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">      [subscriber sendError:error];</div><div class="line">    &#125; completed:^&#123;</div><div class="line">      [subscriber sendCompleted];</div><div class="line">    &#125;];</div><div class="line">  &#125;] setNameWithFormat:<span class="string">@"[%@] -%@"</span>, <span class="keyword">self</span>.name, <span class="built_in">NSStringFromSelector</span>(_cmd)];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="RAC-定时器"><a href="#RAC-定时器" class="headerlink" title="RAC 定时器"></a>RAC 定时器</h3><p>如果需要倒计时到0，可以改最后的x.intValue &lt; 0, 如果不需要开始的值，去掉startWith, 订阅一般是收获的阶段，所以尽量不要在订阅的时候加以控制</p>
+<h2 id="RAC-定时器"><a href="#RAC-定时器" class="headerlink" title="RAC 定时器"></a>RAC 定时器</h2><p>如果需要倒计时到0，可以改最后的x.intValue &lt; 0, 如果不需要开始的值，去掉startWith, 订阅一般是收获的阶段，所以尽量不要在订阅的时候加以控制</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">+ (RACSignal *)makeTimer(<span class="keyword">int</span> times) &#123;</div><div class="line">    RACSignal *timer = [RACSignal interval:<span class="number">1</span> onScheduler:[RACScheduler mainThreadScheduler]];</div><div class="line">    <span class="keyword">return</span> [[[timer scanWithStart:@(times) reduce:^<span class="keyword">id</span>(<span class="built_in">NSNumber</span> *running, <span class="keyword">id</span> _) &#123;</div><div class="line">        <span class="keyword">return</span> @(running.intValue - <span class="number">1</span>);</div><div class="line">    &#125;] startWith:@(times)]</div><div class="line">    takeUntilBlock:^<span class="built_in">BOOL</span>(<span class="built_in">NSNumber</span> *x) &#123;</div><div class="line">        <span class="keyword">return</span> x.intValue == <span class="number">0</span>;</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="理解-switchToLatest"><a href="#理解-switchToLatest" class="headerlink" title="理解 switchToLatest"></a>理解 switchToLatest</h3><p>解释了就没意思了，大家思考下几个重点的问题吧： </p>
+<h2 id="在TableViewCell-的-subView-中绑定事件"><a href="#在TableViewCell-的-subView-中绑定事件" class="headerlink" title="在TableViewCell 的 subView 中绑定事件"></a>在TableViewCell 的 subView 中绑定事件</h2><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/490" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/490</a></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[[[cell.okButton</div><div class="line">    rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</div><div class="line">    takeUntil:cell.rac_prepareForReuseSignal]</div><div class="line">    subscribeNext:^(<span class="built_in">UIButton</span> *x) &#123;</div><div class="line">        MXThing *thing = <span class="keyword">self</span>.things[indexPath.row];</div><div class="line">        <span class="comment">// use this thing</span></div><div class="line">    &#125;];</div><div class="line"></div><div class="line">[[[cell.cancelButton rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</div><div class="line">    takeUntil:cell.rac_prepareForReuseSignal]</div><div class="line">    subscribeNext:^(<span class="built_in">UIButton</span> *x) &#123;</div><div class="line">        <span class="comment">// do other things</span></div><div class="line">    &#125;];</div></pre></td></tr></table></figure>
+<h2 id="注意-NSCalendar-的使用"><a href="#注意-NSCalendar-的使用" class="headerlink" title="注意 NSCalendar 的使用"></a>注意 NSCalendar 的使用</h2><p><img src="media/14709339180888.jpg" alt=""></p>
+<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><p><a href="https://zhuanlan.zhihu.com/p/22090471" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/22090471</a></p>
+<h1 id="Operator-操作注意"><a href="#Operator-操作注意" class="headerlink" title="Operator 操作注意"></a>Operator 操作注意</h1><h2 id="simple-的使用"><a href="#simple-的使用" class="headerlink" title="simple 的使用"></a>simple 的使用</h2><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/977" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/977</a></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[RACSignal zip:@[ signalA, [signalB sample:signalA] ]]</div></pre></td></tr></table></figure>
+<h2 id="理解-switchToLatest"><a href="#理解-switchToLatest" class="headerlink" title="理解 switchToLatest"></a>理解 switchToLatest</h2><p>解释了就没意思了，大家思考下几个重点的问题吧： </p>
 <ol>
 <li>为什么要publish self？ </li>
 <li>对connection.signal做FlattenMap干什么？ </li>
@@ -292,16 +296,12 @@
 <li>分析下取消订阅的过程</li>
 </ol>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">- (RACSignal *)switchToLatest &#123;</div><div class="line">	<span class="keyword">return</span> [[RACSignal createSignal:^(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">		RACMulticastConnection *connection = [<span class="keyword">self</span> publish];</div><div class="line"></div><div class="line">		RACDisposable *subscriptionDisposable = [[connection.signal</div><div class="line">			flattenMap:^(RACSignal *x) &#123;</div><div class="line">				<span class="built_in">NSCAssert</span>(x == <span class="literal">nil</span> || [x isKindOfClass:RACSignal.class], <span class="string">@"-switchToLatest requires that the source signal (%@) send signals. Instead we got: %@"</span>, <span class="keyword">self</span>, x);</div><div class="line"></div><div class="line">				<span class="comment">// -concat:[RACSignal never] prevents completion of the receiver from</span></div><div class="line">				<span class="comment">// prematurely terminating the inner signal.</span></div><div class="line">				<span class="keyword">return</span> [x takeUntil:[connection.signal concat:[RACSignal never]]];</div><div class="line">			&#125;]</div><div class="line">			subscribe:subscriber];</div><div class="line"></div><div class="line">		RACDisposable *connectionDisposable = [connection connect];</div><div class="line">		<span class="keyword">return</span> [RACDisposable disposableWithBlock:^&#123;</div><div class="line">			[subscriptionDisposable dispose];</div><div class="line">			[connectionDisposable dispose];</div><div class="line">		&#125;];</div><div class="line">	&#125;] setNameWithFormat:<span class="string">@"[%@] -switchToLatest"</span>, <span class="keyword">self</span>.name];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="在TableViewCell-的-subView-中绑定事件"><a href="#在TableViewCell-的-subView-中绑定事件" class="headerlink" title="在TableViewCell 的 subView 中绑定事件"></a>在TableViewCell 的 subView 中绑定事件</h3><p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/490" target="_blank" rel="external">https://github.com/ReactiveCocoa/ReactiveCocoa/issues/490</a></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[[[cell.okButton</div><div class="line">    rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</div><div class="line">    takeUntil:cell.rac_prepareForReuseSignal]</div><div class="line">    subscribeNext:^(<span class="built_in">UIButton</span> *x) &#123;</div><div class="line">        MXThing *thing = <span class="keyword">self</span>.things[indexPath.row];</div><div class="line">        <span class="comment">// use this thing</span></div><div class="line">    &#125;];</div><div class="line"></div><div class="line">[[[cell.cancelButton rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</div><div class="line">    takeUntil:cell.rac_prepareForReuseSignal]</div><div class="line">    subscribeNext:^(<span class="built_in">UIButton</span> *x) &#123;</div><div class="line">        <span class="comment">// do other things</span></div><div class="line">    &#125;];</div></pre></td></tr></table></figure>
-<h3 id="注意-NSCalendar-的使用"><a href="#注意-NSCalendar-的使用" class="headerlink" title="注意 NSCalendar 的使用"></a>注意 NSCalendar 的使用</h3><p><img src="media/14709339180888.jpg" alt=""></p>
-<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p><a href="https://zhuanlan.zhihu.com/p/22090471" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/22090471</a></p>
-<h3 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h3><p>为什么要延迟创建信号呢？是因为创建信号的某些必要的量或者方法只在那时才有效。比如一个信号表示当前时间，需要一个[NSDate date]值，如果创建信号的时候给了[RACSignal return:[NSDate date]]，就是未来订阅的时候，得到的仍然是创建的时间。但是用defer就可以订阅得到那时的时间了。</p>
-<h3 id="RACObserve-cold-or-hot"><a href="#RACObserve-cold-or-hot" class="headerlink" title="RACObserve cold or hot?"></a>RACObserve cold or hot?</h3><p>首先它这个冷信号的意义，就是发旧的值和未来的变化值。所以是一个副作用的冷信号,它能保证每次订阅都是按照这个规则，所以各个订阅之间其实没有关系<br>相当于 [RACSignal retrun:@1]无论订阅多少次都是一样的效果,这个是可以随便重复订阅的,从某种意义上讲，也算是热信号</p>
-<h3 id="热信号"><a href="#热信号" class="headerlink" title="热信号"></a>热信号</h3><p>如果要拆分信号，在拆分前的信号转换成热信号，防止重复计算<br>replay 会一直计算过去的值，内存会爆掉，使用 replayLast 会比较好</p>
-<h3 id="一些操作的注意"><a href="#一些操作的注意" class="headerlink" title="一些操作的注意"></a>一些操作的注意</h3><h4 id="swichToLatest"><a href="#swichToLatest" class="headerlink" title="swichToLatest"></a>swichToLatest</h4><p>dispose 上一个，订阅下一个</p>
-<h5 id="flatten"><a href="#flatten" class="headerlink" title="flatten:"></a>flatten:</h5><p>参数和纬度无关，只和效率相关，参数相当于当前的并发数</p>
-<h5 id="contact"><a href="#contact" class="headerlink" title="contact"></a>contact</h5><p>相当于 Flatten:1</p>
+<h2 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h2><p>为什么要延迟创建信号呢？是因为创建信号的某些必要的量或者方法只在那时才有效。比如一个信号表示当前时间，需要一个[NSDate date]值，如果创建信号的时候给了[RACSignal return:[NSDate date]]，就是未来订阅的时候，得到的仍然是创建的时间。但是用defer就可以订阅得到那时的时间了。</p>
+<h2 id="RACObserve-cold-or-hot"><a href="#RACObserve-cold-or-hot" class="headerlink" title="RACObserve cold or hot?"></a>RACObserve cold or hot?</h2><p>首先它这个冷信号的意义，就是发旧的值和未来的变化值。所以是一个副作用的冷信号,它能保证每次订阅都是按照这个规则，所以各个订阅之间其实没有关系<br>相当于 [RACSignal retrun:@1]无论订阅多少次都是一样的效果,这个是可以随便重复订阅的,从某种意义上讲，也算是热信号</p>
+<h2 id="热信号"><a href="#热信号" class="headerlink" title="热信号"></a>热信号</h2><p>如果要拆分信号，在拆分前的信号转换成热信号，防止重复计算<br>replay 会一直计算过去的值，内存会爆掉，使用 replayLast 会比较好</p>
+<h2 id="swichToLatest"><a href="#swichToLatest" class="headerlink" title="swichToLatest"></a>swichToLatest</h2><p>dispose 上一个，订阅下一个</p>
+<h2 id="flatten"><a href="#flatten" class="headerlink" title="flatten:"></a>flatten:</h2><p>参数和纬度无关，只和效率相关，参数相当于当前的并发数</p>
+<h2 id="contact"><a href="#contact" class="headerlink" title="contact"></a>contact</h2><p>相当于 Flatten:1</p>
 
       
     </div>
@@ -391,10 +391,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -411,7 +411,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">3</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -421,7 +421,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -449,7 +449,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RAC-使用技巧"><span class="nav-number">1.</span> <span class="nav-text">RAC 使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-RAC-添加一个-backgroundTask"><span class="nav-number">1.1.</span> <span class="nav-text">使用 RAC 添加一个 backgroundTask</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察消息的正确姿势"><span class="nav-number">1.2.</span> <span class="nav-text">观察消息的正确姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-的使用"><span class="nav-number">1.3.</span> <span class="nav-text">simple 的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doAroundNext"><span class="nav-number">1.4.</span> <span class="nav-text">doAroundNext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAC-定时器"><span class="nav-number">1.5.</span> <span class="nav-text">RAC 定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解-switchToLatest"><span class="nav-number">1.6.</span> <span class="nav-text">理解 switchToLatest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在TableViewCell-的-subView-中绑定事件"><span class="nav-number">1.7.</span> <span class="nav-text">在TableViewCell 的 subView 中绑定事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-NSCalendar-的使用"><span class="nav-number">1.8.</span> <span class="nav-text">注意 NSCalendar 的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存泄漏"><span class="nav-number">1.9.</span> <span class="nav-text">内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">1.10.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RACObserve-cold-or-hot"><span class="nav-number">1.11.</span> <span class="nav-text">RACObserve cold or hot?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#热信号"><span class="nav-number">1.12.</span> <span class="nav-text">热信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些操作的注意"><span class="nav-number">1.13.</span> <span class="nav-text">一些操作的注意</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#swichToLatest"><span class="nav-number">1.13.1.</span> <span class="nav-text">swichToLatest</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#flatten"><span class="nav-number">1.13.1.1.</span> <span class="nav-text">flatten:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#contact"><span class="nav-number">1.13.1.2.</span> <span class="nav-text">contact</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实用技巧"><span class="nav-number">1.</span> <span class="nav-text">实用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-RAC-添加一个-backgroundTask"><span class="nav-number">1.1.</span> <span class="nav-text">使用 RAC 添加一个 backgroundTask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察消息的正确姿势"><span class="nav-number">1.2.</span> <span class="nav-text">观察消息的正确姿势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#doAroundNext"><span class="nav-number">1.3.</span> <span class="nav-text">doAroundNext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAC-定时器"><span class="nav-number">1.4.</span> <span class="nav-text">RAC 定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在TableViewCell-的-subView-中绑定事件"><span class="nav-number">1.5.</span> <span class="nav-text">在TableViewCell 的 subView 中绑定事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意-NSCalendar-的使用"><span class="nav-number">1.6.</span> <span class="nav-text">注意 NSCalendar 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存泄漏"><span class="nav-number">1.7.</span> <span class="nav-text">内存泄漏</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Operator-操作注意"><span class="nav-number">2.</span> <span class="nav-text">Operator 操作注意</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#simple-的使用"><span class="nav-number">2.1.</span> <span class="nav-text">simple 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解-switchToLatest"><span class="nav-number">2.2.</span> <span class="nav-text">理解 switchToLatest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defer"><span class="nav-number">2.3.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RACObserve-cold-or-hot"><span class="nav-number">2.4.</span> <span class="nav-text">RACObserve cold or hot?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热信号"><span class="nav-number">2.5.</span> <span class="nav-text">热信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#swichToLatest"><span class="nav-number">2.6.</span> <span class="nav-text">swichToLatest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flatten"><span class="nav-number">2.7.</span> <span class="nav-text">flatten:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contact"><span class="nav-number">2.8.</span> <span class="nav-text">contact</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -476,7 +476,7 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
