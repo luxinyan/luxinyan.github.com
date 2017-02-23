@@ -167,7 +167,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -177,7 +177,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -243,7 +243,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-23T11:39:17+08:00" content="2017-02-23">
               2017-02-23
             </time>
@@ -284,7 +284,7 @@
 <h2 id="“-”"><a href="#“-”" class="headerlink" title="“#”"></a>“#”</h2><p>把参数转换成字符串</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STR(arg) #arg</span></div><div class="line">		NSLog(@<span class="string">"%s"</span>, STR(no qutoes);</div><div class="line"></div><div class="line">#define OCSTR(arg) @#arg</div><div class="line">		NSLog(OCSTR(This is a <span class="built_in">string</span>));</div></pre></td></tr></table></figure>
 <h2 id="“-”-1"><a href="#“-”-1" class="headerlink" title="“##”"></a>“##”</h2><p>连接</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_VAR(type, name) type type##_##name</span></div><div class="line">		DEF_VAR(<span class="keyword">int</span>, a) = <span class="number">5</span>;</div><div class="line">		NSLog(@<span class="string">"%d"</span>, int_a);</div><div class="line">```	</div><div class="line"></div><div class="line">## 一些有用的参数</div><div class="line">```<span class="function">C</span></div><div class="line"><span class="title">NSLog</span><span class="params">(@<span class="string">"%s\n%d\n%s\n%s\n%s\n%s"</span>,</span></div><div class="line"> __FILE__, <span class="comment">//⽂文件全路路径</span></div><div class="line"> __LINE__, <span class="comment">//行号</span></div><div class="line"> __DATE__, <span class="comment">//预编译时的日期</span></div><div class="line"> __TIME__, <span class="comment">//预编译时的时间</span></div><div class="line"> __TIMESTAMP__, <span class="comment">//预编译⽇日期时间</span></div><div class="line"> __FUNCTION__); <span class="comment">//当前函数</span></div><div class="line">```		</div><div class="line"></div><div class="line">## 可变参数宏</div><div class="line"></div><div class="line">### “__VA_ARGS__”</div><div class="line"></div><div class="line">```C</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MY_LOG(str, ...) NSLog(@<span class="string">"【"</span>__FILE__<span class="string">":%d】"</span>str, __LINE__, __VA_ARGS__) </span></div><div class="line"></div><div class="line">MY_LOG(<span class="string">"%d %d %d"</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line"></div><div class="line"><span class="string">"%d %d %d"</span> &gt; str </div><div class="line"><span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &gt; __VA_ARGS__</div><div class="line"></div><div class="line"></div><div class="line"><span class="string">"【/blalbal/:12】1 2 3"</span></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_VAR(type, name) type type##_##name</span></div><div class="line">		DEF_VAR(<span class="keyword">int</span>, a) = <span class="number">5</span>;</div><div class="line">		NSLog(@<span class="string">"%d"</span>, int_a);</div><div class="line">```	</div><div class="line"></div><div class="line">## 一些有用的参数</div><div class="line"></div><div class="line">```<span class="function">C</span></div><div class="line"><span class="title">NSLog</span><span class="params">(@<span class="string">"%s\n%d\n%s\n%s\n%s\n%s"</span>,</span></div><div class="line"> __FILE__, <span class="comment">//⽂文件全路路径</span></div><div class="line"> __LINE__, <span class="comment">//行号</span></div><div class="line"> __DATE__, <span class="comment">//预编译时的日期</span></div><div class="line"> __TIME__, <span class="comment">//预编译时的时间</span></div><div class="line"> __TIMESTAMP__, <span class="comment">//预编译⽇日期时间</span></div><div class="line"> __FUNCTION__); <span class="comment">//当前函数</span></div><div class="line">```		</div><div class="line"></div><div class="line">## 可变参数宏</div><div class="line"></div><div class="line">### “__VA_ARGS__”</div><div class="line"></div><div class="line">```C</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MY_LOG(str, ...) NSLog(@<span class="string">"【"</span>__FILE__<span class="string">":%d】"</span>str, __LINE__, __VA_ARGS__) </span></div><div class="line"></div><div class="line">MY_LOG(<span class="string">"%d %d %d"</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line"></div><div class="line"><span class="string">"%d %d %d"</span> &gt; str </div><div class="line"><span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &gt; __VA_ARGS__</div><div class="line"></div><div class="line"></div><div class="line"><span class="string">"【/blalbal/:12】1 2 3"</span></div></pre></td></tr></table></figure>
 <h3 id="“-VA-ARGS”"><a href="#“-VA-ARGS”" class="headerlink" title="“##VA_ARGS”"></a>“##<strong>VA_ARGS</strong>”</h3><p>如果只有一个参数呢</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">MY_LOG(<span class="string">"only one parameters"</span>);</div><div class="line">NSLog(@<span class="string">"【"</span><span class="string">"/file/path/file.m"</span><span class="string">":%d】"</span><span class="string">"only one parameters"</span>, <span class="number">42</span>, );</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MY_LOG(str, ...) NSLog(@<span class="string">"【"</span>__FILE__<span class="string">":%d】"</span>str, __LINE__, ##__VA_ARGS__) </span></div><div class="line"></div><div class="line">##__VA_ARGS__ 为空时会吞掉前面的引号</div></pre></td></tr></table></figure>
 <h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="KEY-PATH-提示"><a href="#KEY-PATH-提示" class="headerlink" title="KEY_PATH 提示"></a>KEY_PATH 提示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_PATH(CLASS, PATH) \ </span></div><div class="line">(((<span class="keyword">void</span>)(NO &amp;&amp; ((<span class="keyword">void</span>)[CLASS <span class="keyword">new</span>].PATH, NO)), @# PATH))</div></pre></td></tr></table></figure>
@@ -367,7 +367,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-09T14:21:17+08:00" content="2017-02-09">
               2017-02-09
             </time>
@@ -475,7 +475,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-02-09T14:21:17+08:00" content="2016-02-09">
               2016-02-09
             </time>
@@ -597,7 +597,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2015-02-09T14:21:17+08:00" content="2015-02-09">
               2015-02-09
             </time>
@@ -707,7 +707,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">4</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -717,7 +717,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -761,7 +761,7 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
