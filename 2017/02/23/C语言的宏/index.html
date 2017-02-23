@@ -1,0 +1,608 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="C编译器提供的相关参数
+#
+##
+FILE和LINE等
+…和VA_ARGS
+##VA_ARGS
+
+“#”把参数转换成字符串
+12345#define STR(arg) #arg		NSLog(@&quot;%s&quot;, STR(no qutoes);#define OCSTR(arg) @#arg		NSLog(OCSTR(This is a string));
+“##”连接
+12345678910111213">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言的宏">
+<meta property="og:url" content="http://yoursite.com/2017/02/23/C语言的宏/index.html">
+<meta property="og:site_name" content="Luxinyan's Blog">
+<meta property="og:description" content="C编译器提供的相关参数
+#
+##
+FILE和LINE等
+…和VA_ARGS
+##VA_ARGS
+
+“#”把参数转换成字符串
+12345#define STR(arg) #arg		NSLog(@&quot;%s&quot;, STR(no qutoes);#define OCSTR(arg) @#arg		NSLog(OCSTR(This is a string));
+“##”连接
+12345678910111213">
+<meta property="og:updated_time" content="2017-02-23T10:51:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言的宏">
+<meta name="twitter:description" content="C编译器提供的相关参数
+#
+##
+FILE和LINE等
+…和VA_ARGS
+##VA_ARGS
+
+“#”把参数转换成字符串
+12345#define STR(arg) #arg		NSLog(@&quot;%s&quot;, STR(no qutoes);#define OCSTR(arg) @#arg		NSLog(OCSTR(This is a string));
+“##”连接
+12345678910111213">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> C语言的宏 | Luxinyan's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luxinyan's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">夏虫语冰</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C语言的宏
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-02-23T11:39:17+08:00" content="2017-02-23">
+              2017-02-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="C编译器提供的相关参数"><a href="#C编译器提供的相关参数" class="headerlink" title="C编译器提供的相关参数"></a>C编译器提供的相关参数</h2><ul>
+<li>#</li>
+<li>##</li>
+<li><strong>FILE</strong>和<strong>LINE</strong>等</li>
+<li>…和<strong>VA_ARGS</strong></li>
+<li>##<strong>VA_ARGS</strong></li>
+</ul>
+<h2 id="“-”"><a href="#“-”" class="headerlink" title="“#”"></a>“#”</h2><p>把参数转换成字符串</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STR(arg) #arg</span></div><div class="line">		NSLog(@<span class="string">"%s"</span>, STR(no qutoes);</div><div class="line"></div><div class="line">#define OCSTR(arg) @#arg</div><div class="line">		NSLog(OCSTR(This is a <span class="built_in">string</span>));</div></pre></td></tr></table></figure>
+<h2 id="“-”-1"><a href="#“-”-1" class="headerlink" title="“##”"></a>“##”</h2><p>连接</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_VAR(type, name) type type##_##name</span></div><div class="line">		DEF_VAR(<span class="keyword">int</span>, a) = <span class="number">5</span>;</div><div class="line">		NSLog(@<span class="string">"%d"</span>, int_a);</div><div class="line">```	</div><div class="line"></div><div class="line">## 一些有用的参数</div><div class="line">```<span class="function">C</span></div><div class="line"><span class="title">NSLog</span><span class="params">(@<span class="string">"%s\n%d\n%s\n%s\n%s\n%s"</span>,</span></div><div class="line"> __FILE__, <span class="comment">//⽂文件全路路径</span></div><div class="line"> __LINE__, <span class="comment">//行号</span></div><div class="line"> __DATE__, <span class="comment">//预编译时的日期</span></div><div class="line"> __TIME__, <span class="comment">//预编译时的时间</span></div><div class="line"> __TIMESTAMP__, <span class="comment">//预编译⽇日期时间</span></div><div class="line"> __FUNCTION__); <span class="comment">//当前函数</span></div><div class="line">```		</div><div class="line"></div><div class="line">## 可变参数宏</div><div class="line"></div><div class="line">### “__VA_ARGS__”</div><div class="line"></div><div class="line">```C</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MY_LOG(str, ...) NSLog(@<span class="string">"【"</span>__FILE__<span class="string">":%d】"</span>str, __LINE__, __VA_ARGS__) </span></div><div class="line"></div><div class="line">MY_LOG(<span class="string">"%d %d %d"</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line"></div><div class="line"><span class="string">"%d %d %d"</span> &gt; str </div><div class="line"><span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &gt; __VA_ARGS__</div><div class="line"></div><div class="line"></div><div class="line"><span class="string">"【/blalbal/:12】1 2 3"</span></div></pre></td></tr></table></figure>
+<h3 id="“-VA-ARGS”"><a href="#“-VA-ARGS”" class="headerlink" title="“##VA_ARGS”"></a>“##<strong>VA_ARGS</strong>”</h3><p>如果只有一个参数呢</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">MY_LOG(<span class="string">"only one parameters"</span>);</div><div class="line">NSLog(@<span class="string">"【"</span><span class="string">"/file/path/file.m"</span><span class="string">":%d】"</span><span class="string">"only one parameters"</span>, <span class="number">42</span>, );</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MY_LOG(str, ...) NSLog(@<span class="string">"【"</span>__FILE__<span class="string">":%d】"</span>str, __LINE__, ##__VA_ARGS__) </span></div><div class="line"></div><div class="line">##__VA_ARGS__ 为空时会吞掉前面的引号</div></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="KEY-PATH-提示"><a href="#KEY-PATH-提示" class="headerlink" title="KEY_PATH 提示"></a>KEY_PATH 提示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_PATH(CLASS, PATH) \ </span></div><div class="line">(((<span class="keyword">void</span>)(NO &amp;&amp; ((<span class="keyword">void</span>)[CLASS <span class="keyword">new</span>].PATH, NO)), @# PATH))</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+ (NSDictionary *)JSONKeyPathsByPropertyKey &#123;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> @&#123;</div><div class="line">			KEY_PATH(SomeClass, property1): @<span class="string">"property_1"</span>,</div><div class="line">			KEY_PATH(SomeClass, property2): @<span class="string">"property_2"</span>,</div><div class="line">			KEY_PATH(SomeClass, property3): @<span class="string">"property_3"</span>, </div><div class="line">	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(((void)(NO &amp;&amp; ((void)[SomeClass new].property1, NO)), @&quot;property1&quot;)): @&quot;property_1&quot;,</div></pre></td></tr></table></figure>
+<h3 id="玩转可变参数"><a href="#玩转可变参数" class="headerlink" title="玩转可变参数"></a>玩转可变参数</h3><h4 id="ARG-AT"><a href="#ARG-AT" class="headerlink" title="ARG_AT"></a>ARG_AT</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ARG_AT(INDEX, ...) _ARG_AT##INDEX(__VA_ARGS__)</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT0(_0, ...) _0 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT1(_0, _1, ...) _1 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT2(_0, _1, _2, ...) _2 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT3(_0, _1, _2, _3, ...) _3 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT4(_0, _1, _2, _3, _4, ...) _4 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ARG_AT5(_0, _1, _2, _3, _4, _5, ...) _5</span></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> value = ARG_AT(<span class="number">3</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>);</div><div class="line"><span class="keyword">int</span> value = _ARG_AT##<span class="number">3</span>(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>);</div><div class="line"><span class="keyword">int</span> value = _ARG_AT3(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>);</div><div class="line"><span class="comment">// #define _ARG_AT3(_0, _1, _2, _3, ...) _3 </span></div><div class="line"><span class="keyword">int</span> value = <span class="number">400</span>;</div></pre></td></tr></table></figure>
+<p>PS: 参数&lt;=5</p>
+<h4 id="ARG-COUNT"><a href="#ARG-COUNT" class="headerlink" title="ARG_COUNT"></a>ARG_COUNT</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ARG_COUNT(...) \ </span></div><div class="line">ARG_AT(<span class="number">5</span>, ##__VA_ARGS__, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>)</div></pre></td></tr></table></figure>
+<h4 id="DEC"><a href="#DEC" class="headerlink" title="DEC"></a>DEC</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEC(N) \ ARG_AT(N, -1, 0, 1, 2, 3, 4)</span></div></pre></td></tr></table></figure>
+<p>vs</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEC(N) N - 1</span></div></pre></td></tr></table></figure>
+<p> 为啥？<br> 预编译后就能拿到结果</p>
+<h4 id="IS-EQ"><a href="#IS-EQ" class="headerlink" title="IS_EQ"></a>IS_EQ</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_EQ(A, B)   _CONCAT(_IS_EQ, A)(B)</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _CONCAT(A, B)   A ## B</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0(B)    _CONCAT(_IS_EQ0_, B)</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_0   1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_1   0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_2   0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_3   0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_4   0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ0_5   0</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ1(B)    _IS_EQ0(DEC(B))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ2(B)    _IS_EQ1(DEC(B))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ3(B)    _IS_EQ2(DEC(B))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ4(B)    _IS_EQ3(DEC(B))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _IS_EQ5(B)    _IS_EQ4(DEC(B))</span></div></pre></td></tr></table></figure>
+<p>一步一步展开</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">IS_EQ(<span class="number">2</span>, <span class="number">3</span>);</div><div class="line">_CONCAT(_IS_EQ, <span class="number">2</span>)(<span class="number">3</span>);</div><div class="line">_IS_EQ ## <span class="number">2</span>(<span class="number">3</span>);</div><div class="line">_IS_EQ2(<span class="number">3</span>);</div><div class="line">_IS_EQ1(DEC(<span class="number">3</span>));</div><div class="line">_IS_EQ1(<span class="number">2</span>);</div><div class="line">_IS_EQ0(DEC(<span class="number">2</span>))</div><div class="line">_IS_EQ0(<span class="number">1</span>)</div><div class="line">_CONCAT(_IS_EQ0_, <span class="number">1</span>)</div><div class="line">_IS_EQ0_1 <span class="number">0</span></div></pre></td></tr></table></figure>
+<h3 id="综合应用-metamacro-foreach"><a href="#综合应用-metamacro-foreach" class="headerlink" title="综合应用-metamacro_foreach"></a>综合应用-metamacro_foreach</h3><p><a href="https://github.com/jspahrsummers/libextobjc/blob/master/extobjc/metamacros.h#L53" target="_blank" rel="external">libextobjc库中的宏metamacro_foreach</a></p>
+<p>metamacro_foreach(MACRO, SEP, …)<br>参数有三部分，<code>MACRO</code>, <code>SEP</code> 和需要处理的数据 <code>VAL</code><br>实现的功能是，把每个<code>VAL</code>和对应的<code>INDEX</code>通过<code>MACRO</code>处理，得到的结果通过<code>SEP</code>连接</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> stringify(INDEX, VALUE) \</span></div><div class="line">    # INDEX metamacro_stringify(VALUE)</div><div class="line">    </div><div class="line">metamacro_foreach(stringify,<span class="string">"-"</span>, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line">metamacro_foreach_cxt(metamacro_foreach_iter, <span class="string">"-"</span>, stringify, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line">metamacro_concat(metamacro_foreach_cxt, metamacro_argcount(<span class="number">0</span>, <span class="number">1</span>))(stringify, <span class="string">"-"</span>, CONTEXT, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line">metamacro_concat(metamacro_foreach_cxt, <span class="number">2</span>)(stringify, <span class="string">"-"</span>, CONTEXT, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> metamacro_foreach_cxt0(MACRO, SEP, CONTEXT)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> metamacro_foreach_cxt1(MACRO, SEP, CONTEXT, _0) MACRO(0, CONTEXT, _0)</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> metamacro_foreach_cxt2(MACRO, SEP, CONTEXT, _0, _1) \</span></div><div class="line">    metamacro_foreach_cxt1(MACRO, SEP, CONTEXT, _0) \</div><div class="line">    SEP \</div><div class="line">    MACRO(1, CONTEXT, _1)</div><div class="line">    </div><div class="line">   </div><div class="line"></div><div class="line">metamacro_foreach_cxt2(stringify, <span class="string">"-"</span>, CONTEXT, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line">metamacro_foreach_cxt1(stringify, <span class="string">"-"</span>, CONTEXT, <span class="number">0</span>)<span class="string">"-"</span>stringify(<span class="number">1</span>, CONTEXT, <span class="number">1</span>)</div><div class="line">metamacro_foreach_cxt0(stringify, <span class="string">"-"</span>, CONTEXT, <span class="number">0</span>)stringify(<span class="number">1</span>, CONTEXT, <span class="number">1</span>)<span class="string">"-"</span>stringify(<span class="number">1</span>, CONTEXT, <span class="number">1</span>)</div><div class="line">stringify(<span class="number">0</span>, CONTEXT, <span class="number">0</span>)<span class="string">"-"</span>stringify(<span class="number">1</span>, CONTEXT, <span class="number">1</span>)</div><div class="line"><span class="string">"00"</span><span class="string">"-"</span><span class="string">"11"</span></div><div class="line"><span class="string">"00-11"</span></div></pre></td></tr></table></figure>
+<p>根据需要处理数据的个数，生成 metamacro_foreach_cxtN，metamacro_foreach_cxtN 里面还定义了 metamacro_foreach_cxt(N-1), 并且展开宏 MACRO(INDEX(N-1), CONTEXT, (VALN-1))，并且会有一个SEP在前面，然后依次展开 metamacro_foreach_cxt(N-2)，metamacro_foreach_cxt(N-3)，最后得到一个整体的结果<br>00-11</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/webpack-初窥/" rel="next" title="webpack 初窥">
+                <i class="fa fa-chevron-left"></i> webpack 初窥
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LuXinyan" />
+          <p class="site-author-name" itemprop="name">LuXinyan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C编译器提供的相关参数"><span class="nav-number">1.</span> <span class="nav-text">C编译器提供的相关参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“-”"><span class="nav-number">2.</span> <span class="nav-text">“#”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“-”-1"><span class="nav-number">3.</span> <span class="nav-text">“##”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“-VA-ARGS”"><span class="nav-number">3.1.</span> <span class="nav-text">“##VA_ARGS”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">4.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KEY-PATH-提示"><span class="nav-number">4.1.</span> <span class="nav-text">KEY_PATH 提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#玩转可变参数"><span class="nav-number">4.2.</span> <span class="nav-text">玩转可变参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ARG-AT"><span class="nav-number">4.2.1.</span> <span class="nav-text">ARG_AT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARG-COUNT"><span class="nav-number">4.2.2.</span> <span class="nav-text">ARG_COUNT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DEC"><span class="nav-number">4.2.3.</span> <span class="nav-text">DEC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IS-EQ"><span class="nav-number">4.2.4.</span> <span class="nav-text">IS_EQ</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#综合应用-metamacro-foreach"><span class="nav-number">4.3.</span> <span class="nav-text">综合应用-metamacro_foreach</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LuXinyan</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
