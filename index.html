@@ -167,7 +167,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -177,7 +177,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -243,7 +243,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-23T11:39:17+08:00" content="2017-02-23">
               2017-02-23
             </time>
@@ -367,7 +367,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2017-02-09T14:21:17+08:00" content="2017-02-09">
               2017-02-09
             </time>
@@ -462,6 +462,109 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/14/源码阅读-AFNetworking之AFURLSessionManager-(一)/" itemprop="url">
+                  源码阅读-AFNetworking之AFURLSessionManager (一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-03-14T00:50:17+08:00" content="2016-03-14">
+              2016-03-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="AFURLSessionManager-解析"><a href="#AFURLSessionManager-解析" class="headerlink" title="AFURLSessionManager 解析"></a>AFURLSessionManager 解析</h1><p>AFNetworking 3.0 提供了 <code>AFURLSessionManager</code> 来处理 HTTP 请求, 使用方式如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURLSessionConfiguration</span> *configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</div><div class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];</div><div class="line"></div><div class="line"><span class="built_in">NSURL</span> *URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://example.com/upload"</span>];</div><div class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:URL];</div><div class="line"></div><div class="line"><span class="built_in">NSURLSessionDataTask</span> *dataTask = [manager dataTaskWithRequest:request completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error) &#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Error: %@"</span>, error);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@ %@"</span>, response, responseObject);</div><div class="line">    &#125;</div><div class="line">&#125;];</div><div class="line">[dataTask resume];</div></pre></td></tr></table></figure>
+<p>不难看出, 3.0完全是基于 NSURLSession 来实现的, 下面我们就来看看源码中的实现细节</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">- (instancetype)initWithSessionConfiguration:(<span class="built_in">NSURLSessionConfiguration</span> *)configuration &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!configuration) &#123;</div><div class="line">        configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">self</span>.sessionConfiguration = configuration;</div><div class="line"></div><div class="line">    <span class="comment">//创建一个并行的队列, 但是 maxConcurrentOperationCount 设为 1, 相当于一个串行队列</span></div><div class="line">    <span class="keyword">self</span>.operationQueue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</div><div class="line">    <span class="keyword">self</span>.operationQueue.maxConcurrentOperationCount = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="comment">//初始化session, 传入 self.operationQueue</span></div><div class="line">    <span class="keyword">self</span>.session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:<span class="keyword">self</span>.sessionConfiguration delegate:<span class="keyword">self</span> delegateQueue:<span class="keyword">self</span>.operationQueue];</div><div class="line">    <span class="comment">//设置 response 解析方式, 当成 JSON 来解析, 如果我们需要改变解析形式, 只需要在初始化之后修改 responseSerializer</span></div><div class="line">    <span class="keyword">self</span>.responseSerializer = [AFJSONResponseSerializer serializer];</div><div class="line"></div><div class="line">    <span class="keyword">self</span>.securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line"></div><div class="line"><span class="meta">#if !TARGET_OS_WATCH</span></div><div class="line">    <span class="keyword">self</span>.reachabilityManager = [AFNetworkReachabilityManager sharedManager];</div><div class="line"><span class="meta">#endif</span></div><div class="line"></div><div class="line">    <span class="comment">//一个用来存放task 所对应的 delegate 的 NSMutableDictionary, key 为TaskIdentifier, 其实就是内存指针地址</span></div><div class="line">    <span class="keyword">self</span>.mutableTaskDelegatesKeyedByTaskIdentifier = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</div><div class="line"></div><div class="line">    <span class="comment">//操作 mutableTaskDelegatesKeyedByTaskIdentifier 的时候使用的锁</span></div><div class="line">    <span class="keyword">self</span>.lock = [[<span class="built_in">NSLock</span> alloc] init];</div><div class="line">    <span class="keyword">self</span>.lock.name = AFURLSessionManagerLockName;</div><div class="line"></div><div class="line">    <span class="comment">//清空 session 中 task 的所有 handler</span></div><div class="line">    [<span class="keyword">self</span>.session getTasksWithCompletionHandler:^(<span class="built_in">NSArray</span> *dataTasks, <span class="built_in">NSArray</span> *uploadTasks, <span class="built_in">NSArray</span> *downloadTasks) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSURLSessionDataTask</span> *task <span class="keyword">in</span> dataTasks) &#123;</div><div class="line">            [<span class="keyword">self</span> addDelegateForDataTask:task uploadProgress:<span class="literal">nil</span> downloadProgress:<span class="literal">nil</span> completionHandler:<span class="literal">nil</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSURLSessionUploadTask</span> *uploadTask <span class="keyword">in</span> uploadTasks) &#123;</div><div class="line">            [<span class="keyword">self</span> addDelegateForUploadTask:uploadTask progress:<span class="literal">nil</span> completionHandler:<span class="literal">nil</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSURLSessionDownloadTask</span> *downloadTask <span class="keyword">in</span> downloadTasks) &#123;</div><div class="line">            [<span class="keyword">self</span> addDelegateForDownloadTask:downloadTask progress:<span class="literal">nil</span> destination:<span class="literal">nil</span> completionHandler:<span class="literal">nil</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h1><h2 id="NSFoundationVersionNumber-比较版本号"><a href="#NSFoundationVersionNumber-比较版本号" class="headerlink" title="NSFoundationVersionNumber 比较版本号"></a>NSFoundationVersionNumber 比较版本号</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#ifndef NSFoundationVersionNumber_iOS_8_0</span></div><div class="line"><span class="meta">#define NSFoundationVersionNumber_With_Fixed_5871104061079552_bug 1140.11</span></div><div class="line"><span class="meta">#else</span></div><div class="line"><span class="meta">#define NSFoundationVersionNumber_With_Fixed_5871104061079552_bug NSFoundationVersionNumber_iOS_8_0</span></div><div class="line"><span class="meta">#endif</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">NSFoundationVersionNumber</span> &lt; <span class="built_in">NSFoundationVersionNumber_With_Fixed_5871104061079552_bug</span>) &#123;</div><div class="line">        <span class="comment">// Fix of bug</span></div><div class="line">        <span class="comment">// Open Radar:http://openradar.appspot.com/radar?id=5871104061079552 (status: Fixed in iOS8)</span></div><div class="line">        <span class="comment">// Issue about:https://github.com/AFNetworking/AFNetworking/issues/2093</span></div><div class="line">        <span class="built_in">dispatch_sync</span>(url_session_manager_creation_queue(), block);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>直接使用自带的<code>NSFoundationVersionNumber</code>来进行版本号的比较<code>NSFoundationVersionNumber</code>就是当前版本, <code>NSFoundationVersionNumber_iOS_8_0</code>就是 <code>iOS8.0</code></p>
+<h2 id="NSStringFromSelector-selector-来写keypath"><a href="#NSStringFromSelector-selector-来写keypath" class="headerlink" title="NSStringFromSelector(@selector()) 来写keypath"></a>NSStringFromSelector(@selector()) 来写keypath</h2><p>使用<code>NSStringFromSelector(@selector(countOfBytesReceived))</code>来写keypath, 这样更直观。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[task addObserver:self</div><div class="line">       forKeyPath:NSStringFromSelector(@selector(countOfBytesReceived))</div><div class="line">          options:NSKeyValueObservingOptionNew</div><div class="line">          context:NULL];</div></pre></td></tr></table></figure>
+<h2 id="用-dispatch-semaphore-t-把异步任务变成同步"><a href="#用-dispatch-semaphore-t-把异步任务变成同步" class="headerlink" title="用 dispatch_semaphore_t 把异步任务变成同步"></a>用 dispatch_semaphore_t 把异步任务变成同步</h2><p>通过<code>dispatch_semaphore_t</code>使<code>getTasksWithCompletionHandler</code>这个异步任务变成同步, 直到获得 tasks 才返回。<code>NSStringFromSelector(_cmd)</code>直接使用当前调用的函数为<code>selector</code>。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSArray</span> *)tasksForKeyPath:(<span class="built_in">NSString</span> *)keyPath &#123;</div><div class="line">    __block <span class="built_in">NSArray</span> *tasks = <span class="literal">nil</span>;</div><div class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="number">0</span>);</div><div class="line">    [<span class="keyword">self</span>.session getTasksWithCompletionHandler:^(<span class="built_in">NSArray</span> *dataTasks, <span class="built_in">NSArray</span> *uploadTasks, <span class="built_in">NSArray</span> *downloadTasks) &#123;</div><div class="line">        <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(dataTasks))]) &#123;</div><div class="line">            tasks = dataTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(uploadTasks))]) &#123;</div><div class="line">            tasks = uploadTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(downloadTasks))]) &#123;</div><div class="line">            tasks = downloadTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(tasks))]) &#123;</div><div class="line">            tasks = [@[dataTasks, uploadTasks, downloadTasks] valueForKeyPath:<span class="string">@"@unionOfArrays.self"</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> tasks;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSArray</span> *)tasks &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> tasksForKeyPath:<span class="built_in">NSStringFromSelector</span>(_cmd)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSArray</span> *)dataTasks &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> tasksForKeyPath:<span class="built_in">NSStringFromSelector</span>(_cmd)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSArray</span> *)uploadTasks &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> tasksForKeyPath:<span class="built_in">NSStringFromSelector</span>(_cmd)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSArray</span> *)downloadTasks &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> tasksForKeyPath:<span class="built_in">NSStringFromSelector</span>(_cmd)];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/09/RAC-使用技巧/" itemprop="url">
                   RAC 使用技巧
                 </a>
@@ -475,7 +578,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-02-09T14:21:17+08:00" content="2016-02-09">
               2016-02-09
             </time>
@@ -597,7 +700,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2015-05-01T23:50:17+08:00" content="2015-05-01">
               2015-05-01
             </time>
@@ -741,7 +844,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2015-04-28T15:08:17+08:00" content="2015-04-28">
               2015-04-28
             </time>
@@ -865,7 +968,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2015-02-09T14:21:17+08:00" content="2015-02-09">
               2015-02-09
             </time>
@@ -967,7 +1070,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2014-12-01T21:41:17+08:00" content="2014-12-01">
               2014-12-01
             </time>
@@ -1073,7 +1176,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2014-12-01T21:13:17+08:00" content="2014-12-01">
               2014-12-01
             </time>
@@ -1145,6 +1248,103 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/03/14/网络数据解析-JSON&XML/" itemprop="url">
+                  网络数据解析-JSON&XML
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-03-14T00:50:17+08:00" content="2013-03-14">
+              2013-03-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##JSON<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDictionary</span> *dict = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:data options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</div><div class="line"><span class="built_in">NSArray</span> *videoArray = dict[<span class="string">@"videos"</span>];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSDictionary</span> *videoDict <span class="keyword">in</span> videoArray) &#123;</div><div class="line">    HMVideo *video = [HMVideo videoWithDict:videoDict];</div><div class="line">    [<span class="keyword">self</span>.videos addObject:video];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##XML—GDataXML (DOM 方式)<br>DOM 方式直接读取整个文档<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 加载服务器最新的视频信息</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">// 1.创建URL</span></div><div class="line"><span class="built_in">NSURL</span> *url = HMUrl(<span class="string">@"video?type=XML"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 2.创建请求</span></div><div class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"></div><div class="line"><span class="comment">// 3.发送请求</span></div><div class="line">[<span class="built_in">NSURLConnection</span> sendAsynchronousRequest:request queue:[<span class="built_in">NSOperationQueue</span> mainQueue] completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *connectionError) &#123;</div><div class="line">    <span class="keyword">if</span> (connectionError || data == <span class="literal">nil</span>) &#123;</div><div class="line">        [MBProgressHUD showError:<span class="string">@"网络繁忙，请稍后再试！"</span>];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 解析XML数据</span></div><div class="line">    </div><div class="line">    <span class="comment">// 加载整个XML数据</span></div><div class="line">    GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:data options:<span class="number">0</span> error:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="comment">// 获得文档的根元素 -- videos元素</span></div><div class="line">    GDataXMLElement *root = doc.rootElement;</div><div class="line">    </div><div class="line">    <span class="comment">// 获得根元素里面的所有video元素</span></div><div class="line">    <span class="built_in">NSArray</span> *elements = [root elementsForName:<span class="string">@"video"</span>];</div><div class="line">    </div><div class="line">    <span class="comment">// 遍历所有的video元素</span></div><div class="line">    <span class="keyword">for</span> (GDataXMLElement *videoElement <span class="keyword">in</span> elements) &#123;</div><div class="line">        HMVideo *video = [[HMVideo alloc] init];</div><div class="line">        </div><div class="line">        <span class="comment">// 取出元素的属性</span></div><div class="line">        video.id = [videoElement attributeForName:<span class="string">@"id"</span>].stringValue.intValue;</div><div class="line">        video.length = [videoElement attributeForName:<span class="string">@"length"</span>].stringValue.intValue;</div><div class="line">        video.name = [videoElement attributeForName:<span class="string">@"name"</span>].stringValue;</div><div class="line">        video.image = [videoElement attributeForName:<span class="string">@"image"</span>].stringValue;</div><div class="line">        video.url = [videoElement attributeForName:<span class="string">@"url"</span>].stringValue;</div><div class="line">        </div><div class="line">        <span class="comment">// 添加到数组中</span></div><div class="line">        [<span class="keyword">self</span>.videos addObject:video];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 刷新表格</span></div><div class="line">    [<span class="keyword">self</span>.tableView reloadData];</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<p>##NSXMLParser SAX 方式<br>SAX 是一条一条读取 XML 语句, 用在 XML 文件比较大的场景<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 加载服务器最新的视频信息</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">// 1.创建URL</span></div><div class="line"><span class="built_in">NSURL</span> *url = HMUrl(<span class="string">@"video?type=XML"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 2.创建请求</span></div><div class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"></div><div class="line"><span class="comment">// 3.发送请求</span></div><div class="line">[<span class="built_in">NSURLConnection</span> sendAsynchronousRequest:request queue:[<span class="built_in">NSOperationQueue</span> mainQueue] completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *connectionError) &#123;</div><div class="line">    <span class="keyword">if</span> (connectionError || data == <span class="literal">nil</span>) &#123;</div><div class="line">        [MBProgressHUD showError:<span class="string">@"网络繁忙，请稍后再试！"</span>];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 解析XML数据</span></div><div class="line">    </div><div class="line">    <span class="comment">// 1.创建XML解析器 -- SAX -- 逐个元素往下解析</span></div><div class="line">    <span class="built_in">NSXMLParser</span> *parser = [[<span class="built_in">NSXMLParser</span> alloc] initWithData:data];</div><div class="line">    </div><div class="line">    <span class="comment">// 2.设置代理</span></div><div class="line">    parser.delegate = <span class="keyword">self</span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 3.开始解析（同步执行）</span></div><div class="line">    [parser parse];</div><div class="line">    </div><div class="line">    <span class="comment">// 4.刷新表格</span></div><div class="line">    [<span class="keyword">self</span>.tableView reloadData];</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">#pragma mark - NSXMLParser的代理方法</div><div class="line">/**</div><div class="line"> *  解析到文档的开头时会调用</div><div class="line"> */</div><div class="line">- (void)parserDidStartDocument:(NSXMLParser *)parser</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;parserDidStartDocument----&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到一个元素的开始就会调用</div><div class="line"> *</div><div class="line"> *  @param elementName   元素名称</div><div class="line"> *  @param attributeDict 属性字典</div><div class="line"> */</div><div class="line">- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict</div><div class="line">&#123;</div><div class="line">    if ([@&quot;videos&quot; isEqualToString:elementName]) return;</div><div class="line">    </div><div class="line">    HMVideo *video = [HMVideo videoWithDict:attributeDict];</div><div class="line">    [self.videos addObject:video];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到一个元素的结束就会调用</div><div class="line"> *</div><div class="line"> *  @param elementName   元素名称</div><div class="line"> */</div><div class="line">- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;didEndElement----%@&quot;, elementName);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到文档的结尾时会调用（解析结束）</div><div class="line"> */</div><div class="line">- (void)parserDidEndDocument:(NSXMLParser *)parser</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;parserDidEndDocument----&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1186,8 +1386,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1197,7 +1397,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1261,7 +1461,7 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
