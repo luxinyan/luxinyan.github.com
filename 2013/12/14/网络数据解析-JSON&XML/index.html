@@ -1,0 +1,571 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="##JSON123456NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];NSArray *videoArray = dict[@&quot;videos&quot;];for (NSDictionary *videoDict in videoA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络数据解析-JSON&XML">
+<meta property="og:url" content="http://iluxinyan.com/2013/12/14/网络数据解析-JSON&XML/index.html">
+<meta property="og:site_name" content="Luxinyan's Blog">
+<meta property="og:description" content="##JSON123456NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];NSArray *videoArray = dict[@&quot;videos&quot;];for (NSDictionary *videoDict in videoA">
+<meta property="og:updated_time" content="2017-03-07T10:13:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络数据解析-JSON&XML">
+<meta name="twitter:description" content="##JSON123456NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];NSArray *videoArray = dict[@&quot;videos&quot;];for (NSDictionary *videoDict in videoA">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 网络数据解析-JSON&XML | Luxinyan's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luxinyan's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">夏虫语冰</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网络数据解析-JSON&XML
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2013-12-14T00:50:17+08:00" content="2013-12-14">
+              2013-12-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##JSON<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDictionary</span> *dict = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:data options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</div><div class="line"><span class="built_in">NSArray</span> *videoArray = dict[<span class="string">@"videos"</span>];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSDictionary</span> *videoDict <span class="keyword">in</span> videoArray) &#123;</div><div class="line">    HMVideo *video = [HMVideo videoWithDict:videoDict];</div><div class="line">    [<span class="keyword">self</span>.videos addObject:video];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##XML—GDataXML (DOM 方式)<br>DOM 方式直接读取整个文档<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 加载服务器最新的视频信息</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">// 1.创建URL</span></div><div class="line"><span class="built_in">NSURL</span> *url = HMUrl(<span class="string">@"video?type=XML"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 2.创建请求</span></div><div class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"></div><div class="line"><span class="comment">// 3.发送请求</span></div><div class="line">[<span class="built_in">NSURLConnection</span> sendAsynchronousRequest:request queue:[<span class="built_in">NSOperationQueue</span> mainQueue] completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *connectionError) &#123;</div><div class="line">    <span class="keyword">if</span> (connectionError || data == <span class="literal">nil</span>) &#123;</div><div class="line">        [MBProgressHUD showError:<span class="string">@"网络繁忙，请稍后再试！"</span>];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 解析XML数据</span></div><div class="line">    </div><div class="line">    <span class="comment">// 加载整个XML数据</span></div><div class="line">    GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:data options:<span class="number">0</span> error:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="comment">// 获得文档的根元素 -- videos元素</span></div><div class="line">    GDataXMLElement *root = doc.rootElement;</div><div class="line">    </div><div class="line">    <span class="comment">// 获得根元素里面的所有video元素</span></div><div class="line">    <span class="built_in">NSArray</span> *elements = [root elementsForName:<span class="string">@"video"</span>];</div><div class="line">    </div><div class="line">    <span class="comment">// 遍历所有的video元素</span></div><div class="line">    <span class="keyword">for</span> (GDataXMLElement *videoElement <span class="keyword">in</span> elements) &#123;</div><div class="line">        HMVideo *video = [[HMVideo alloc] init];</div><div class="line">        </div><div class="line">        <span class="comment">// 取出元素的属性</span></div><div class="line">        video.id = [videoElement attributeForName:<span class="string">@"id"</span>].stringValue.intValue;</div><div class="line">        video.length = [videoElement attributeForName:<span class="string">@"length"</span>].stringValue.intValue;</div><div class="line">        video.name = [videoElement attributeForName:<span class="string">@"name"</span>].stringValue;</div><div class="line">        video.image = [videoElement attributeForName:<span class="string">@"image"</span>].stringValue;</div><div class="line">        video.url = [videoElement attributeForName:<span class="string">@"url"</span>].stringValue;</div><div class="line">        </div><div class="line">        <span class="comment">// 添加到数组中</span></div><div class="line">        [<span class="keyword">self</span>.videos addObject:video];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 刷新表格</span></div><div class="line">    [<span class="keyword">self</span>.tableView reloadData];</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<p>##NSXMLParser SAX 方式<br>SAX 是一条一条读取 XML 语句, 用在 XML 文件比较大的场景<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 加载服务器最新的视频信息</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">// 1.创建URL</span></div><div class="line"><span class="built_in">NSURL</span> *url = HMUrl(<span class="string">@"video?type=XML"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 2.创建请求</span></div><div class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"></div><div class="line"><span class="comment">// 3.发送请求</span></div><div class="line">[<span class="built_in">NSURLConnection</span> sendAsynchronousRequest:request queue:[<span class="built_in">NSOperationQueue</span> mainQueue] completionHandler:^(<span class="built_in">NSURLResponse</span> *response, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *connectionError) &#123;</div><div class="line">    <span class="keyword">if</span> (connectionError || data == <span class="literal">nil</span>) &#123;</div><div class="line">        [MBProgressHUD showError:<span class="string">@"网络繁忙，请稍后再试！"</span>];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 解析XML数据</span></div><div class="line">    </div><div class="line">    <span class="comment">// 1.创建XML解析器 -- SAX -- 逐个元素往下解析</span></div><div class="line">    <span class="built_in">NSXMLParser</span> *parser = [[<span class="built_in">NSXMLParser</span> alloc] initWithData:data];</div><div class="line">    </div><div class="line">    <span class="comment">// 2.设置代理</span></div><div class="line">    parser.delegate = <span class="keyword">self</span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 3.开始解析（同步执行）</span></div><div class="line">    [parser parse];</div><div class="line">    </div><div class="line">    <span class="comment">// 4.刷新表格</span></div><div class="line">    [<span class="keyword">self</span>.tableView reloadData];</div><div class="line">&#125;];</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">#pragma mark - NSXMLParser的代理方法</div><div class="line">/**</div><div class="line"> *  解析到文档的开头时会调用</div><div class="line"> */</div><div class="line">- (void)parserDidStartDocument:(NSXMLParser *)parser</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;parserDidStartDocument----&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到一个元素的开始就会调用</div><div class="line"> *</div><div class="line"> *  @param elementName   元素名称</div><div class="line"> *  @param attributeDict 属性字典</div><div class="line"> */</div><div class="line">- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict</div><div class="line">&#123;</div><div class="line">    if ([@&quot;videos&quot; isEqualToString:elementName]) return;</div><div class="line">    </div><div class="line">    HMVideo *video = [HMVideo videoWithDict:attributeDict];</div><div class="line">    [self.videos addObject:video];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到一个元素的结束就会调用</div><div class="line"> *</div><div class="line"> *  @param elementName   元素名称</div><div class="line"> */</div><div class="line">- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;didEndElement----%@&quot;, elementName);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  解析到文档的结尾时会调用（解析结束）</div><div class="line"> */</div><div class="line">- (void)parserDidEndDocument:(NSXMLParser *)parser</div><div class="line">&#123;</div><div class="line">//    NSLog(@&quot;parserDidEndDocument----&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/01/Xcode6-New-Feature-1.Playground/" rel="prev" title="Xcode6 New Feature - 1.Playground">
+                Xcode6 New Feature - 1.Playground <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars0.githubusercontent.com/u/6646773?v=3&u=6c86b82133a822fe0a34359b9197bed3b38d328c&s=400"
+               alt="LuXinyan" />
+          <p class="site-author-name" itemprop="name">LuXinyan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/luxinyan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/u/1080848494" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LuXinyan</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
